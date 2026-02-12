@@ -17,35 +17,6 @@ A full-stack library management system with Flask and SQLite. Track books, membe
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 👥 Member Management
 
 -Register library members with contact details
@@ -55,6 +26,10 @@ A full-stack library management system with Flask and SQLite. Track books, membe
 -Automatic join date tracking
 
 -Member activity status
+
+<img width="1696" height="752" alt="Screenshot 2026-02-12 135014" src="https://github.com/user-attachments/assets/aa61fc0a-8d9e-45a4-8b1b-9fc557cb351f" />
+
+
 
 📋 Loan System
 
@@ -66,6 +41,10 @@ A full-stack library management system with Flask and SQLite. Track books, membe
 
 -Active loans dashboard
 
+<img width="1744" height="646" alt="Screenshot 2026-02-12 135035" src="https://github.com/user-attachments/assets/27013903-03cc-4eb5-a3e4-624d0108f956" />
+
+
+
 📊 Dashboard
 
 -Real-time statistics (total books, active members, active loans, overdue)
@@ -73,6 +52,10 @@ A full-stack library management system with Flask and SQLite. Track books, membe
 -Recent loan activity feed
 
 -Quick overview of library status
+
+<img width="1813" height="704" alt="Screenshot 2026-02-12 134910" src="https://github.com/user-attachments/assets/4d2c480b-ec36-472d-8e65-0d5a90b69e1b" />
+
+
 
 🛠️ Technology Stack
 
