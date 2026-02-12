@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loans - Library Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .navbar { background: #2c3e50; padding: 1rem; color: white; }
+        .navbar a { color: white; text-decoration: none; margin-right: 20px; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .loan-form { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .form-group { display: inline-block; margin-right: 10px; }
+        select, button { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #3498db; color: white; border: none; cursor: pointer; }
+        .loans-table { background: white; padding: 20px; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; }
+        .return-btn { padding: 4px 8px; background: #27ae60; color: white; text-decoration: none; border-radius: 4px; }
+        .overdue { color: #e74c3c; font-weight: bold; }
+        .flash { padding: 10px; margin-bottom: 20px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h2>📚 Library Book Tracker</h2>
+        <div>
+            <a href="/">Dashboard</a>
+            <a href="/books">Books</a>
+            <a href="/members">Members</a>
+            <a href="/loans">Loans</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="loan-form">
+            <h3>Check Out Book</h3>
+            <form action="/loans/create" method="POST">
+                <div class="form-group">
+                    <select name="book_id" required>
+                        <option value="">Select Book</option>
+                        {% for book in available_books %}
+                        <option value="{{ book.book_id }}">{{ book.title }} ({{ book.available_copies }} available)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="member_id" required>
+                        <option value="">Select Member</option>
+                        {% for member in active_members %}
+                        <option value="{{ member.member_id }}">{{ member.first_name }} {{ member.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Check Out</button>
+            </form>
+        </div>
+        
+        <div class="loans-table">
+            <h3>Active Loans</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Member</th>
+                        <th>Loan Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in active_loans %}
+                    <tr>
+                        <td>{{ loan.title }}</td>
+                        <td>{{ loan.first_name }} {{ loan.last_name }}</td>
+                        <td>{{ loan.loan_date }}</td>
+                        <td {% if loan.days_remaining < 0 %}class="overdue"{% endif %}>
+                            {{ loan.due_date }}
+                            {% if loan.days_remaining < 0 %}
+                                ({{ -loan.days_remaining|int }} days overdue)
+                            {% elif loan.days_remaining <= 2 %}
+                                ({{ loan.days_remaining|int }} days left)
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if loan.days_remaining < 0 %}
+                                <span style="color: #e74c3c;">Overdue</span>
+                            {% else %}
+                                <span style="color: #27ae60;">On Time</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="/loans/return/{{ loan.loan_id }}" class="return-btn" onclick="return confirm('Return this book?')">Return</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

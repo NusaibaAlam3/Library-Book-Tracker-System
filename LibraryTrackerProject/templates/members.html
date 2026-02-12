@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Members - Library Tracker</title>
+    <style>
+        /* Copy styles from books.html and modify as needed */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .navbar { background: #2c3e50; padding: 1rem; color: white; }
+        .navbar a { color: white; text-decoration: none; margin-right: 20px; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
+        .add-form { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .form-group { display: inline-block; margin-right: 10px; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        button { padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .members-table { background: white; padding: 20px; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; }
+        .flash { padding: 10px; margin-bottom: 20px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h2>📚 Library Book Tracker</h2>
+        <div>
+            <a href="/">Dashboard</a>
+            <a href="/books">Books</a>
+            <a href="/members">Members</a>
+            <a href="/loans">Loans</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="add-form">
+            <h3>Add New Member</h3>
+            <form action="/members/add" method="POST">
+                <div class="form-group">
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="phone" placeholder="Phone">
+                </div>
+                <button type="submit">Add Member</button>
+            </form>
+        </div>
+        
+        <div class="members-table">
+            <h3>Library Members</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Join Date</th>
+                        <th>Books Borrowed</th>
+                        <th>Active Loans</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for member in members %}
+                    <tr>
+                        <td>{{ member.first_name }} {{ member.last_name }}</td>
+                        <td>{{ member.email }}</td>
+                        <td>{{ member.phone }}</td>
+                        <td>{{ member.join_date }}</td>
+                        <td>{{ member.books_borrowed or 0 }}</td>
+                        <td>{{ member.active_loans or 0 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
