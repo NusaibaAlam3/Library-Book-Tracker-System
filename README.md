@@ -13,6 +13,39 @@ A full-stack library management system with Flask and SQLite. Track books, membe
 
 -Real-time availability indicators
 
+<img width="1823" height="764" alt="Screenshot 2026-02-12 134939" src="https://github.com/user-attachments/assets/f7f3ab19-d770-4ec7-a0c6-de857689c023" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 👥 Member Management
 
 -Register library members with contact details
